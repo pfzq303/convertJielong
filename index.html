@@ -1,0 +1,99 @@
+<body>
+    <div>
+        <div>
+            <textarea id="input" style="width: 480px; height: 384px;">  </textarea>
+            <button id="btn">提取楼栋号</button>
+        </div>
+    </div>
+    <table id="tb" style="display: inline-block;">
+        <tr>
+            <td rowspan="2"></td>
+        </tr>
+    </table>
+    <script>
+        let numMap = {
+            '0': 0,
+            '1': 1,
+            '2': 2,
+            '3': 3,
+            '4': 4,
+            '5': 5,
+            '6': 6,
+            '7': 7,
+            '8': 8,
+            '9': 9,
+            '一': 1,
+            '二': 2,
+            '三': 3,
+            '四': 4,
+            '五': 5,
+            '六': 6,
+            '七': 7,
+            '八': 8,
+            '九': 9,
+            '零': 0,
+            '壹': 1,
+            '贰': 2,
+            '叁': 3,
+            '肆': 4,
+            '伍': 5,
+            '陆': 6,
+            '柒': 7,
+            '捌': 8,
+            '玖': 9
+        }
+        function checkIndex(str, index) {
+            let sum = -1;
+            let collect = 2;
+            let ret = [];
+            let ispass = false;
+            for (let i = 0; i < str.length; i++) {
+                let v = numMap[str.charAt(i)]
+                if (v === undefined) { 
+                    if(sum === -1) continue;
+                    if(!ispass) { 
+                        if(index != sum) {
+                            return undefined;
+                        }
+                        ispass = true
+                        sum = 0;
+                        continue
+                    }
+                    if(collect <= 0) return ret.join("-");
+                    if(sum === 0) { continue; }
+                    collect--;
+                    ret.push(sum)
+                    sum = 0;
+                } else {
+                    if(sum == -1) {
+                        sum = v;
+                    } else {
+                        sum = sum * 10 + v;
+                    }
+                }
+
+            }
+            return undefined;
+        }
+        document.getElementById('btn').onclick = function (ev) {
+            let textContent = document.getElementById('input').value;
+            let arr = textContent.split("\n");
+            var tb = document.getElementById('tb');
+            tb.innerHTML = "";
+            let start = 1;
+            for (let item of arr) {
+                let ret = checkIndex(item, start);
+                if (ret) {
+                    start++;
+                    var tr = tb.insertRow(tb.rows.length);
+                    var td = tr.insertCell(0);
+                    td.innerHTML = ret;
+                }
+            }
+
+
+        }
+
+    </script>
+
+</body>
