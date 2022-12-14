@@ -1,15 +1,11 @@
 <body>
     <div>
         <div>
-            <textarea id="input" style="width: 480px; height: 384px;">  </textarea>
+            <textarea id="input" style="width: 480px; height: 384px;"></textarea>
             <button id="btn">提取楼栋号</button>
         </div>
     </div>
-    <table id="tb" style="display: inline-block;">
-        <tr>
-            <td rowspan="2"></td>
-        </tr>
-    </table>
+    <textarea id="output" placeholder="这里会显示提取内容" readonly style="width: 480px; min-height: 75px;"></textarea>
     <script>
         let numMap = {
             '0': 0,
@@ -76,22 +72,24 @@
             return undefined;
         }
         document.getElementById('btn').onclick = function (ev) {
-            let textContent = document.getElementById('input').value;
+            let input = document.getElementById('input');
+            let textContent = input.value;
+            let output = document.getElementById('output');
             let arr = textContent.split("\n");
-            var tb = document.getElementById('tb');
-            tb.innerHTML = "";
             let start = 1;
+            let text = ""
             for (let item of arr) {
                 let ret = checkIndex(item, start);
                 if (ret) {
                     start++;
-                    var tr = tb.insertRow(tb.rows.length);
-                    var td = tr.insertCell(0);
-                    td.innerHTML = ret;
+                    if(text === "") {
+                        text = ret
+                    } else {
+                        text += "\n" + ret
+                    }
                 }
             }
-
-
+            output.value = text
         }
 
     </script>
