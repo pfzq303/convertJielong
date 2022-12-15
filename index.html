@@ -1,11 +1,24 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="apple-touch-fullscreen" content="no"/>
+</head>
 <body>
     <div>
         <div>
-            <textarea id="input" style="width: 480px; height: 384px;"></textarea>
+            <textarea id="input" placeholder="这里粘贴接龙内容" style="width: 480px; height: 384px;"></textarea>
             <button id="btn">提取楼栋号</button>
         </div>
     </div>
-    <textarea id="output" placeholder="这里会显示提取内容" readonly style="width: 480px; min-height: 75px;"></textarea>
+    <div>
+        <div>
+            <textarea id="output" placeholder="这里会显示提取内容" readonly style="width: 480px; min-height: 175px;"></textarea>
+            <button id="cpy">复制内容</button>
+        </div>
+    </div>
     <script>
         let numMap = {
             '0': 0,
@@ -84,7 +97,14 @@
             }
             output.value = text
         }
-
+        document.getElementById('cpy').onclick = function (ev) {
+            let output = document.getElementById('output');
+            if(output.value !== '') {
+                output.select()
+                document.execCommand('copy')
+            }
+        }
     </script>
 
 </body>
+</html>
