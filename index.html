@@ -106,7 +106,7 @@
             let isSingle = false, topLou;
             for(let lou in louTJ) {
                 // 超过2/3认定为某个具体楼栋的群接龙
-                if(louTJ[lou] > collected.length * 2 / 3.0) {
+                if(louTJ[lou] > collected.length * 3 / 4.0) {
                     topLou = lou;
                     isSingle = true;
                     break;
