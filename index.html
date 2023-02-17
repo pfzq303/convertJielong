@@ -97,16 +97,16 @@
                     collected.push(ret);
                 }
             }
-            let louTJ = {};
+            let louTJ = {}, totalLou = 0;
             for(let item of collected) {
                 if(item.length > 1) {
+                    totalLou++;
                     louTJ[item[0]] = louTJ[item[0]] ? (louTJ[item[0]] + 1) : 1;
                 }
             }
             let isSingle = false, topLou;
             for(let lou in louTJ) {
-                // 超过2/3认定为某个具体楼栋的群接龙
-                if(louTJ[lou] > collected.length * 3 / 4.0) {
+                if(louTJ[lou] > totalLou * 4 / 5.0) {
                     topLou = lou;
                     isSingle = true;
                     break;
