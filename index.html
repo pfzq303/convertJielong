@@ -67,7 +67,7 @@
                         sum = 0;
                         continue
                     }
-                    if(collect <= 0) return ret.join("-");
+                    if(collect <= 0) return ret;
                     if(sum === 0) { continue; }
                     collect--;
                     ret.push(sum)
@@ -82,25 +82,42 @@
 
             }
             if(sum > 0) ret.push(sum); 
-            if(ret.length > 0) return ret.join("-");
+            if(ret.length > 0) return ret;
             return undefined;
         }
         document.getElementById('btn').onclick = function (ev) {
             let input = document.getElementById('input');
             let textContent = input.value;
             let output = document.getElementById('output');
-            let arr = textContent.split("\n");
-            let start = 1;
-            let text = ""
+            let collected = [], start = 1, arr = textContent.split("\n");
             for (let item of arr) {
                 let ret = checkIndex(item, start);
                 if (ret) {
                     start++;
-                    if(text === "") {
-                        text = ret
-                    } else {
-                        text += "\n" + ret
-                    }
+                    collected.push(ret);
+                }
+            }
+            let louTJ = {};
+            for(let item of collected) {
+                if(item.length > 1) {
+                    louTJ[item[0]] = louTJ[item[0]] ? (louTJ[item[0]] + 1) : 1;
+                }
+            }
+            let isSingle = false, topLou;
+            for(let lou in louTJ) {
+                // 超过2/3认定为某个具体楼栋的群接龙
+                if(louTJ[lou] > collected.length * 2 / 3.0) {
+                    topLou = lou;
+                    isSingle = true;
+                    break;
+                }
+            }
+            let text = ""
+            for(let item of collected) {
+                if(isSingle && item.length == 1) {
+                    text += topLou + "-" + item[0] + "\n"
+                } else {
+                    text += item.join("-") + "\n"
                 }
             }
             output.value = text
